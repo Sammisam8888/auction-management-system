@@ -25,6 +25,7 @@ export default function DisplayPage() {
   const [loading, setLoading] = useState(true);
   const prevPlayerRef = useRef(null);
   const [playerKey, setPlayerKey] = useState(0);
+  const fetchIdRef = useRef(0); // Prevents stale fetch responses from updating state
 
   // Poll every 3 seconds for updates
   useEffect(() => {
@@ -34,6 +35,8 @@ export default function DisplayPage() {
   }, []);
 
   async function fetchData() {
+    const thisFetchId = ++fetchIdRef.current;
+
     try {
       // Fetch teams, players, and current player state from server
       const [teamsRes, playersRes, currentRes] = await Promise.all([
@@ -41,6 +44,10 @@ export default function DisplayPage() {
         fetch('/api/players'),
         fetch('/api/current-player'),
       ]);
+
+      // If a newer fetch was started while we were waiting, discard this result
+      if (thisFetchId !== fetchIdRef.current) return;
+
       const teamsData = await teamsRes.json();
       const playersData = await playersRes.json();
       const currentData = await currentRes.json();
@@ -50,8 +57,8 @@ export default function DisplayPage() {
       if (playersData.success && currentData.success) {
         const allPlayers = playersData.players;
         
-        // Use server-side current player state (set by scorekeeper)
         if (currentData.playerSerialNumber) {
+          // Scorekeeper has a player loaded — show them
           const displayPlayer = allPlayers.find(
             p => p.serialNumber === currentData.playerSerialNumber
           );
@@ -62,8 +69,11 @@ export default function DisplayPage() {
             }
             setCurrentPlayer(displayPlayer);
           }
+        } else {
+          // Scorekeeper cleared the player (after sell/unsold) — reset display
+          setCurrentPlayer(null);
+          prevPlayerRef.current = null;
         }
-        // If no current player set by scorekeeper, keep showing whatever we have
       }
 
       setLoading(false);

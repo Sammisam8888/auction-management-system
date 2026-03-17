@@ -151,6 +151,13 @@ export default function ScorekeeperPage() {
           time: new Date().toLocaleTimeString(),
         }, ...prev].slice(0, 10));
 
+        // Clear server state so display page stops showing this player
+        fetch('/api/current-player', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ playerSerialNumber: null }),
+        }).catch(() => {});
+
         // Reset & refresh
         setCurrentPlayer(null);
         setSelectedTeam('');
@@ -192,6 +199,13 @@ export default function ScorekeeperPage() {
           text: `${currentPlayer.name} — UNSOLD (Round ${currentRound})`,
           time: new Date().toLocaleTimeString(),
         }, ...prev].slice(0, 10));
+
+        // Clear server state so display page stops showing this player
+        fetch('/api/current-player', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ playerSerialNumber: null }),
+        }).catch(() => {});
 
         setCurrentPlayer(null);
         setSelectedTeam('');
