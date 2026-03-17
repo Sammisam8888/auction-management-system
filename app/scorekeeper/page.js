@@ -82,10 +82,13 @@ export default function ScorekeeperPage() {
     setCurrentPlayer(player);
     setSelectedTeam('');
     setPriceInput(player.basePrice || '0.5');
-
-    // Broadcast to display page via localStorage
-    localStorage.setItem('kpl_current_player', String(serial));
-    window.dispatchEvent(new Event('storage'));
+    
+    // Broadcast to display page via server-side API (works across devices)
+    fetch('/api/current-player', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ playerSerialNumber: serial }),
+    }).catch(err => console.error('Failed to sync current player:', err));
 
     addToast(`Loaded: ${player.name} (#${serial})`, 'info');
   }
