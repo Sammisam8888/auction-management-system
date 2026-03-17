@@ -1388,3 +1388,662 @@ html, body {
 .login-btn:active {
   transform: translateY(0);
 }
+
+/* ==================== STATISTICS PAGE ==================== */
+
+.stats-page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.stats-page::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 20% 30%, rgba(245, 197, 24, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(69, 123, 157, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: rgba(10, 10, 15, 0.9);
+  border-bottom: 1px solid var(--border-accent);
+  backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.stats-back {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+  width: 80px;
+}
+
+.stats-back:hover {
+  color: var(--gold);
+}
+
+.stats-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--gold), #fff, var(--gold));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Tabs */
+.stats-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 16px 32px;
+  background: rgba(10, 10, 15, 0.6);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 62px;
+  z-index: 40;
+  backdrop-filter: blur(10px);
+}
+
+.stats-tab {
+  padding: 12px 28px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  letter-spacing: 0.5px;
+}
+
+.stats-tab:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+}
+
+.stats-tab.active {
+  background: rgba(245, 197, 24, 0.1);
+  border-color: var(--gold);
+  color: var(--gold);
+  box-shadow: 0 0 20px rgba(245, 197, 24, 0.1);
+}
+
+/* Content area */
+.stats-content {
+  padding: 32px;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.4s ease;
+}
+
+/* ── General Stats ── */
+
+.stats-general {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  animation: fadeInUp 0.4s ease;
+}
+
+.stats-section-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.stats-highlight-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 28px 32px;
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border-accent);
+  backdrop-filter: blur(20px);
+  transition: all 0.3s;
+  animation: fadeInUp 0.5s ease;
+}
+
+.stats-highlight-card:hover {
+  border-color: rgba(245, 197, 24, 0.4);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.stats-highlight-card.crown {
+  border-color: rgba(245, 197, 24, 0.35);
+  background: linear-gradient(135deg, rgba(18, 18, 30, 0.9), rgba(245, 197, 24, 0.05));
+}
+
+.highlight-rank {
+  font-size: 3rem;
+  flex-shrink: 0;
+}
+
+.highlight-info {
+  flex: 1;
+}
+
+.highlight-name {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.highlight-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.highlight-price-section {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.highlight-sold-price {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+
+.highlight-team {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.highlight-team strong {
+  color: var(--text-primary);
+}
+
+/* Role chips */
+.role-chip {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.role-chip.batsman {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+.role-chip.bowler {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #60a5fa;
+}
+
+.role-chip.all-rounder {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+}
+
+.role-chip.small {
+  padding: 2px 10px;
+  font-size: 0.7rem;
+}
+
+.type-chip {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.type-chip.foreign {
+  background: rgba(233, 196, 106, 0.12);
+  border-color: rgba(233, 196, 106, 0.3);
+  color: #e9c46a;
+}
+
+.type-chip.domestic {
+  background: rgba(42, 157, 143, 0.12);
+  border-color: rgba(42, 157, 143, 0.3);
+  color: #2a9d8f;
+}
+
+.type-chip.small {
+  padding: 2px 10px;
+  font-size: 0.7rem;
+}
+
+/* Role cards grid */
+.stats-role-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.stats-role-card {
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+  transition: all 0.3s;
+  animation: fadeInUp 0.5s ease;
+}
+
+.stats-role-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.stats-role-card.all-rounder {
+  border-top: 3px solid #4ade80;
+}
+
+.stats-role-card.batsman {
+  border-top: 3px solid #f87171;
+}
+
+.stats-role-card.bowler {
+  border-top: 3px solid #60a5fa;
+}
+
+.role-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 22px 12px;
+}
+
+.role-card-icon {
+  font-size: 1.5rem;
+}
+
+.role-card-label {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+}
+
+.role-card-body {
+  padding: 0 22px 22px;
+}
+
+.role-card-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.role-card-price {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+.role-card-team {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.role-card-empty {
+  padding: 0 22px 22px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.stats-empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+/* ── Player Stats Table ── */
+
+.stats-players {
+  animation: fadeInUp 0.4s ease;
+}
+
+.stats-table-wrapper {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.stats-table thead {
+  background: rgba(245, 197, 24, 0.06);
+  border-bottom: 1px solid var(--border-accent);
+}
+
+.stats-table th {
+  padding: 14px 18px;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.stats-table td {
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+
+.stats-table tbody tr {
+  transition: background 0.2s;
+}
+
+.stats-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.stats-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.stats-table .col-serial {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-family: var(--font-display);
+  width: 50px;
+}
+
+.stats-table .col-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stats-table .col-price {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.stats-table .col-team {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.status-badge.sold {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: var(--success);
+}
+
+.status-badge.unsold {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: var(--danger);
+}
+
+.status-badge.pending {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+/* ── Team Stats ── */
+
+.stats-teams {
+  animation: fadeInUp 0.4s ease;
+}
+
+.team-roster-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.team-roster-card {
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.team-roster-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-md);
+}
+
+.team-roster-card.team-a { border-top: 3px solid var(--team-a); }
+.team-roster-card.team-b { border-top: 3px solid var(--team-b); }
+.team-roster-card.team-c { border-top: 3px solid var(--team-c); }
+.team-roster-card.team-d { border-top: 3px solid var(--team-d); }
+
+.roster-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.roster-team-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.team-roster-card.team-a .roster-team-name { color: var(--team-a); }
+.team-roster-card.team-b .roster-team-name { color: var(--team-b); }
+.team-roster-card.team-c .roster-team-name { color: var(--team-c); }
+.team-roster-card.team-d .roster-team-name { color: var(--team-d); }
+
+.roster-count {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 4px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+}
+
+/* Roster table */
+.roster-list {
+  padding: 0;
+}
+
+.roster-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.roster-table thead {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.roster-table th {
+  padding: 10px 16px;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.roster-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+  color: var(--text-secondary);
+}
+
+.roster-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.roster-table .col-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.roster-table .col-price {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.roster-empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Roster summary */
+.roster-summary {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+
+.roster-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px;
+  gap: 4px;
+  border-right: 1px solid var(--border);
+}
+
+.roster-stat:last-child {
+  border-right: none;
+}
+
+.roster-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.roster-stat-value {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.roster-stat.purse .roster-stat-value {
+  color: var(--gold);
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 900px) {
+  .stats-role-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-roster-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-content {
+    padding: 20px 16px;
+  }
+
+  .stats-header {
+    padding: 12px 16px;
+  }
+
+  .stats-tabs {
+    padding: 12px 16px;
+    overflow-x: auto;
+  }
+
+  .stats-highlight-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .highlight-price-section {
+    text-align: center;
+  }
+
+  .stats-table-wrapper {
+    overflow-x: auto;
+  }
+}

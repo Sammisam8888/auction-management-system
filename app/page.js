@@ -12,6 +12,9 @@ export default function Home() {
         <Link href="/scorekeeper" className="landing-btn secondary">
           🎯 Scorekeeper
         </Link>
+        <Link href="/statistics" className="landing-btn secondary">
+          📊 Statistics
+        </Link>
       </div>
     </div>
   );
