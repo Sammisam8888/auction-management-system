@@ -334,7 +334,8 @@ html, body {
 .player-photo {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--bg-primary);
 }
 
 .player-photo-placeholder {
