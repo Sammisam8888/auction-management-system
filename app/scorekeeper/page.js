@@ -3,6 +3,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { formatPrice, formatPurse, AUCTION_RULES } from '@/lib/constants';
 
+// Hardcoded credentials
+const VALID_EMAIL = 'admin@kratuhor.com';
+const VALID_PASSWORD = 'KPLtheBest@123';
+
 function getTeamClass(teamName) {
   const name = (teamName || '').toUpperCase().trim();
   if (name.includes('TEAM A')) return 'team-a';
@@ -13,6 +17,33 @@ function getTeamClass(teamName) {
 }
 
 export default function ScorekeeperPage() {
+  // Auth state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [authChecked, setAuthChecked] = useState(false);
+
+  // Check session on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const auth = sessionStorage.getItem('kpl_scorekeeper_auth');
+      if (auth === 'true') setIsAuthenticated(true);
+      setAuthChecked(true);
+    }
+  }, []);
+
+  function handleLogin(e) {
+    e.preventDefault();
+    if (loginEmail === VALID_EMAIL && loginPassword === VALID_PASSWORD) {
+      setIsAuthenticated(true);
+      sessionStorage.setItem('kpl_scorekeeper_auth', 'true');
+      setLoginError('');
+    } else {
+      setLoginError('Invalid email or password');
+    }
+  }
+
   const [teams, setTeams] = useState([]);
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,8 +56,9 @@ export default function ScorekeeperPage() {
   const [currentRound, setCurrentRound] = useState(1);
   const [activityLog, setActivityLog] = useState([]);
   const [submitting, setSubmitting] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(null); // { type: 'SELL' | 'UNSOLD' }
+  const [showConfirm, setShowConfirm] = useState(null);
   const [toasts, setToasts] = useState([]);
+
 
   // Fetch data
   const fetchData = useCallback(async () => {
@@ -203,6 +235,61 @@ export default function ScorekeeperPage() {
   const unsoldInCurrentRound = players.filter(p => p.status === 'UNSOLD' && Number(p.round) === currentRound);
   const pendingPlayers = players.filter(p => p.status === 'PENDING');
   const soldPlayers = players.filter(p => p.status === 'SOLD');
+
+  // ==================== AUTH GATE ====================
+  if (!authChecked) {
+    return (
+      <div className="scorekeeper-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="scorekeeper-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <div className="login-card">
+          <div className="login-header">
+            <h1 className="login-title">⚡ KPL Scorekeeper</h1>
+            <p className="login-subtitle">Authentication Required</p>
+          </div>
+          <form onSubmit={handleLogin} className="login-form">
+            <div className="login-field">
+              <label className="login-label">Email</label>
+              <input
+                type="email"
+                className="login-input"
+                placeholder="Enter admin email"
+                value={loginEmail}
+                onChange={e => setLoginEmail(e.target.value)}
+                autoFocus
+                required
+              />
+            </div>
+            <div className="login-field">
+              <label className="login-label">Password</label>
+              <input
+                type="password"
+                className="login-input"
+                placeholder="Enter password"
+                value={loginPassword}
+                onChange={e => setLoginPassword(e.target.value)}
+                required
+              />
+            </div>
+            {loginError && (
+              <div className="login-error">🚫 {loginError}</div>
+            )}
+            <button type="submit" className="login-btn">
+              🔓 Login
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
